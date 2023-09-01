@@ -6,6 +6,8 @@
 import re
 from typing import List
 import logging
+import os
+import mysql.connector
 
 """Fields from user_data.csv considered as
    PII (personally identifiable information)
@@ -32,6 +34,20 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """connects to the MySQL database
+       using mysql.connector module
+    """
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD')
+    host = os.getenv('PERSONAL_DATA_DB_HOST')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+    return mysql.connector.connect(user=username,
+                                   password=password,
+                                   host=host,
+                                   database=db_name)
 
 
 class RedactingFormatter(logging.Formatter):
