@@ -50,7 +50,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                    host=host,
                                    database=db_name)
 
-                                   
+                             
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class"""
 
