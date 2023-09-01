@@ -7,7 +7,7 @@ import re
 from typing import List
 import logging
 
-"""Fields from user_data.csv considered as 
+"""Fields from user_data.csv considered as
    PII (personally identifiable information)
 """
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
