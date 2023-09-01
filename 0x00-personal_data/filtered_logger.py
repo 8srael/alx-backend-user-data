@@ -50,7 +50,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
                                    host=host,
                                    database=db_name)
 
-
+                                   
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class"""
 
@@ -66,3 +66,35 @@ class RedactingFormatter(logging.Formatter):
         """Filter values in incoming log records"""
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
+
+def main():
+    """ Display each db row under a filtered format """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    for row in cursor:
+        message = (
+            "name={}; email={}; phone={}; ssn={};password={};"
+            "ip={};last_login={};user_agent={};"
+        ).format(
+            row[0], row[1], row[2], row[3],
+            row[4], row[5], row[6], row[7]
+        )
+        log_record = logging.LogRecord(
+            "user_data",
+            logging.INFO,
+            None,
+            None,
+            message,
+            None,
+            None
+        )
+        formatter = RedactingFormatter(fields=PII_FIELDS)
+        print(formatter.format(log_record))
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
