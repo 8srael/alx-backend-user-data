@@ -1,4 +1,4 @@
-### 0x01. Basic authentication
+## 0x01. Basic authentication
 
 This project contains tasks for learning to authenticate a user using the Basic authentication scheme.
 
