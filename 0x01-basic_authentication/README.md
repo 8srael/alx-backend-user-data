@@ -1,4 +1,4 @@
-## 0x01. Basic authentication
+### 0x01. Basic authentication
 
 This project contains tasks for learning to authenticate a user using the Basic authentication scheme.
 
@@ -156,6 +156,9 @@ This project contains tasks for learning to authenticate a user using the Basic 
 + [x] 13. **Require auth with stars**
   + Improve `def require_auth(self, path, excluded_paths)` in [api/v1/auth/auth.py](api/v1/auth/auth.py) by allowing `*` at the end of excluded paths:
     + Example for `excluded_paths = ["/api/v1/stat*"]`:
+      + `/api/v1/users` will return `True`.
+      + `/api/v1/status` will return `False`.
+      + `/api/v1/stats` will return `False`. = ["/api/v1/stat*"]`:
       + `/api/v1/users` will return `True`.
       + `/api/v1/status` will return `False`.
       + `/api/v1/stats` will return `False`.
