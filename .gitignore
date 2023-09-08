@@ -1,0 +1,7 @@
+0x00-personal_data/var.ps1
+venv/
+main.*
+__pycache__/
+README2.md
+main_*.py
+.db_User.json
