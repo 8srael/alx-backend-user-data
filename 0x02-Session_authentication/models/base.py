@@ -79,6 +79,11 @@ class Base():
         s_class = cls.__name__
         file_path = ".db_{}.json".format(s_class)
         objs_json = {}
+
+        if path.exists(file_path):
+            with open(file_path, 'r') as f:
+                objs_json = json.load(f)
+
         for obj_id, obj in DATA[s_class].items():
             objs_json[obj_id] = obj.to_json(True)
 
