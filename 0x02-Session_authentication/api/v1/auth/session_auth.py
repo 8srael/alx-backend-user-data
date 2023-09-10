@@ -29,7 +29,7 @@ class SessionAuth(Auth):
     def current_user(self, request=None) -> TypeVar('User'):
         """Returns a User based on a cookie value"""
         session_id = self.session_cookie(request)
-        user_id = self.user_id_by_session_id.get(session_id)
+        user_id = self.user_id_for_session_id(session_id)
         return User.get(user_id)
 
     def destroy_session(self, request=None):
