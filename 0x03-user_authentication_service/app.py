@@ -21,9 +21,8 @@ def index() -> str:
 @app.route("/users", methods=['POST'], strict_slashes=False)
 def users() -> str:
     """ POST /users
-    JSON body:
-      - email
-      - password
+    Return:
+        - JSON payload : {"email": "<user email>", "message": "user created"}
     """
     email = request.form.get("email")
     password = request.form.get('password')
