@@ -2,7 +2,7 @@
 
 """ Basic Flask app """
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -23,6 +23,9 @@ def users() -> str:
     """ POST /users
     Return:
         - JSON payload : {"email": "<user email>", "message": "user created"}
+                                or
+        - JSON payload : {"email already registered"} with
+                            400 - Bad Reqquest HTTP status
     """
     email = request.form.get("email")
     password = request.form.get('password')
@@ -38,6 +41,8 @@ def login() -> str:
     """ POST /sessions
     Return:
         - JSON payload : {"email": "<user email>", "message": "logged in"}
+                                    or
+        - 401 - Unauthorized HTTP status
     """
     email = request.form.get("email")
     password = request.form.get('password')
@@ -48,6 +53,40 @@ def login() -> str:
         return response
     else:
         abort(401)
+
+
+@app.route("/sessions", methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """ DELETE /sessions
+    Return:
+        - Redirect to /
+                or
+        - 403 - Forbidden HTTP status
+    """
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        AUTH.destroy_session(user.id)
+        return redirect("/")
+    else:
+        abort(403)
+
+
+@app.route("/profile", methods=['GET'], strict_slashes=False)
+def profile() -> str:
+    """
+        GET /profile
+        Return:
+            - JSON payload : {"email": "<user email>"}
+                            or
+            - 403 - Forbidden HTTP status
+    """
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        return jsonify({"email": user.email}), 200
+    else:
+        abort(403)
 
 
 if __name__ == "__main__":
