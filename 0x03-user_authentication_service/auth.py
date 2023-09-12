@@ -26,15 +26,15 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> User:
         """
             Registers and returns a new user if email isn’t listed
         """
         try:
             user = self._db.find_user_by(email=email)
-            raise ValueError('User {} already exists'.format(email))
         except NoResultFound:
             return self._db.add_user(email, _hash_password(password))
+        raise ValueError('User {} already exists'.format(email))
 
     def valid_login(self, email: str, password: str) -> bool:
         """ Checks if a user exists and validates credentials """
