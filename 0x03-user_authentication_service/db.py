@@ -35,10 +35,14 @@ class DB:
     def add_user(self, email: str, hashed_password: str) -> User:
         """Save the user to the database
         """
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
-        return user
+        try:
+            new_user = User(email=email, hashed_password=hashed_password)
+            self._session.add(new_user)
+            self._session.commit()
+        except Exception:
+            self._session.rollback()
+            new_user = None
+        return new_user
 
     def find_user_by(self, **kwargs) -> TypeVar('User'):
         """ Takes in arbitrary keyword arguments
