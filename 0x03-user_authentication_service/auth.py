@@ -26,7 +26,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> User:
+    def register_user(self, email: str, password: str) -> TypeVar('User'):
         """
             Registers and returns a new user if email isn’t listed
         """
