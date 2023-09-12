@@ -52,6 +52,8 @@ class DB:
         """
         if not kwargs:
             raise InvalidRequestError
+        if not all(key in User.__table__.columns for key in kwargs):
+            raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
