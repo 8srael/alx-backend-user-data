@@ -72,7 +72,7 @@ class Auth:
         except NoResultFound:
             pass
 
-    def get_reset_password_token(self, email):
+    def get_reset_password_token(self, email: str) -> str:
         """Generate an uuid and update user's reset token"""
         user = self._db.find_user_by(email=email)
         if user is None:
