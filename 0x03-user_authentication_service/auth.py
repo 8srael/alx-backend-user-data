@@ -3,7 +3,6 @@
 
 from bcrypt import hashpw, gensalt, checkpw
 from db import DB
-from typing import TypeVar
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
 
@@ -26,7 +25,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> User:
         """
             Registers and returns a new user if email isn’t listed
         """
